@@ -1,0 +1,60 @@
+type Query {
+    getClient(id: ID!): Client
+    getClientDocs(clientid: ID!): [Document]
+    getClientRelations(clientid: ID!): [Relation]
+    getDocument(documentid: ID!): Document
+}
+
+type Client {
+    id: ID!
+    name: String
+    phone: String
+    documents: [Document]
+    relations: [Relation]
+}
+
+type Document {
+    id: ID!
+    version: Int
+    series: String
+    number: String
+    type: String
+    issueDate: DateTime
+}
+
+type Relation {
+    id: ID!
+    type: String
+    client: Client
+}
+
+
+--------
+/clients/{id} Получить информацию о клиенте по ID
+query {
+ getClient(id: "clientId") {
+   id
+   name
+   phone
+ }
+} 
+
+ /clients/{id}/documents Возвращает список документов клиента по ID.
+ query {
+ getClientDocs(clientid: "clientId") {
+   id
+   type
+ }
+}
+
+ /clients/{id}/relatives Возвращает информацию о родственниках клиента по ID.
+ query {
+ getClientRelations(clientid: "clientId") {
+   id
+   type
+   client { 
+    id
+    name
+   }
+ }
+}
